@@ -1,15 +1,10 @@
-# rp2040-pico-command-line-interpreter
+# RP2040-pico-command-line-interpreter
 
-This is a work in progress. This project assumes that you are using the C/C++ SDK for the Pico. I am using VS Code on Manjaro Linux. I compile my code on an attached Raspberry Pi Zero (where the SDK is installed and my project code lives).
+This program is a work in progress. It is based on the "rp2040-pico-command-line-interpreter" by Frank Applin. This project assumes that you are using the C/C++ SDK for the Pico.
 
-I wanted to create a command line interpreter for the Raspberry Pi Pico (rp2040) with the idea that a programmer could simply add code into a couple "C" source files, recompile, and the programmer would be able to run those commands in a pseudo shell like environment. The idea could be used to create your own REPL if you wanted.
+The goal of this project is to create a working command line interpreter for the RP2040, where the programmer can add specific functions, recompile, and reupload to the pico. The Pico would then run the program on the second core or interact with the PIO, and return data to the console.
 
-<div align="left">
-  <a href="https://www.youtube.com/watch?v=D64lwDijejo"><img src="" alt="My video"></a>
-</div>
-
-
-As an example, suppose I wanted to test several routines that I wrote to use different sensors. Instead of having several programs, I could have just one and use commands to execute them. If I wanted to blink an LED on a certain pin, I could run a command like the following from the command line interpreter:
+An example by Frank Applin, allows for the user to use a RP2040 UART to send commands such as `blink_led` and the Pico will toggle given pin, a set number of times, for a set duration. The code can remain the same but each value can be set, without recompiling, by input through the UART console. 
 ```
 $blink_led 25 10 250
 OK
@@ -19,7 +14,7 @@ $
 
 The programmer defines a routine in a "C" source file (user_funcs.c) and accompanying header file (user_funcs.h).
 
-This would be added to the file user_funcs.c
+Continuing the blink_led example:
 ```
 void blink_led(char tokens[][MAX_STRING_SIZE]) {
 
@@ -53,11 +48,11 @@ void blink_led(char tokens[][MAX_STRING_SIZE]) {
 
 } // end blink_led
 ```
-The parameters are passed in as an array of string tokens. The tokens are gathered in the main program, but the programmer shouldn't worry about this. These are the arguments to the command line command. The command name is tokens[0]. In the example code above, the arguments are the LED pin - tokens[1], the number of times to blink - tokens[2], and the duration of the blink (in milliseconds) - tokens[3].
+The parameters are passed in as an array of string tokens. The tokens are gathered in the main program, and handled by the console. The command name is tokens[0]. In the blink_led example above, the arguments are the LED pin - tokens[1], the number of times to blink - tokens[2], and the duration of the blink (in milliseconds) - tokens[3].
 
 The command blink_led also has to be added to an intialization routine. The three pieces of information are the command name, command help, and the function name.
 
-This also needs modifying in user_funcs.c
+Make these modifications in user_funcs.c
 ```
 // Each user function you create, you must also
 // add to the init_user_functions routine.
@@ -94,14 +89,4 @@ void calc(char tokens[][MAX_STRING_SIZE]);
 
 ```
 
-This should be all the programmer has to worry about. Run the make command in the build directory and then copy the .uf2 file to the Pico. The command line interpreter should start to run with the prompt "$" waiting for you to type a command to run. There is a list command to list the user-defined functions. Just for fun, I added a calc command, which uses the TINYEXPR - Tiny recursive descent parser and evaluation engine in C. So, you can do things like:
-
-$calc sqrt(1256)+1256^3
-
-1.981385e+09
-
-OK
-
-$
-
-
+Run the make command in the build directory and then copy the .uf2 file to the Pico. The command line interpreter should start to run with the prompt "$" waiting for you to type a command to run. There is a list command to list the user-defined functions. 
