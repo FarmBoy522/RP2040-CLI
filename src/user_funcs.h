@@ -35,29 +35,3 @@ void blink_led(char tokens[][MAX_STRING_SIZE]);
 void read_pir_sensor(char tokens[][MAX_STRING_SIZE]);
 void calc(char tokens[][MAX_STRING_SIZE]);
 
-
-#endif /* USER_FUNCS_H */CTIONS 5
-
-typedef void (*user_func)(char tokens[][MAX_STRING_SIZE]);
-
-typedef  struct usr_funcs {
-
-       char  command_name[20] ;
-       user_func  user_function; // function pointer 
-
- } usr_funcs;
-
-extern usr_funcs user_functions[MAX_USER_FUNCTIONS];
-
-
-#define MAX_TIMINGS	85
-
-
-void init_user_functions(); 
-
-
-void blink_led(char tokens[][MAX_STRING_SIZE]);
-void read_pir_sensor(char tokens[][MAX_STRING_SIZE]);
-
-
-#endif /* USER_FUNCS_H */

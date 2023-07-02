@@ -10,7 +10,7 @@ project(test_project C CXX)
 
 pico_sdk_init()
 
-add_executable(test user_funcs.c console.c test.c)
+add_executable(test user_funcs.c console.c test.c tinyexpr.c)
 
 pico_enable_stdio_uart(test 1)
 

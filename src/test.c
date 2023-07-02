@@ -23,10 +23,6 @@
 #define MAX_STRING_SIZE 25
 
 void setup_uart();
-void console_putc(char c);
-char console_getc(void);
-void console_puts(char *s);
-int console_gets(char *s, int len);
 unsigned long int word_count(const char *string);
 int parse_string(char *str, char tokens[][MAX_STRING_SIZE], char *delim);
 
@@ -160,3 +156,4 @@ void setup_uart() {
   uart_set_translate_crlf(UART_ID, true);
 
 } // end setup_uart
+
