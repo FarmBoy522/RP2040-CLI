@@ -3,7 +3,7 @@
 
 #define UART_ID uart0
 
-void console_putc(char c) ;
+void console_putc(char c);
 char console_getc(void);
 void console_puts(char *s);
 int console_gets(char *s, int len);

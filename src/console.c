@@ -1,19 +1,19 @@
-#include "console.h"
-#include "console.h"
-#include "hardware/uart.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "hardware/uart.h"
+#include "console.h"
 
-void console_putc(char c) { uart_putc(UART_ID, c); } // end console_putc
+void console_putc(char c) { uart_putc(UART_ID, c); printf("%c", c); }
 
-char console_getc(void) {
+char console_getc(void) { 
   uint8_t ch;
 
-  ch = uart_getc(UART_ID);
+  //ch = uart_getc(UART_ID);
+  ch = getchar();
 
-  return (char)ch;
-} // end console_getc
+  return (char) ch;
+} 
 
 void console_puts(char *s) {
   // put string to console output
@@ -26,9 +26,7 @@ void console_puts(char *s) {
     } // end if
 
     s++;
-
   } // end while
-
 } // end console_puts
 
 int console_gets(char *s, int len) {
@@ -53,19 +51,20 @@ int console_gets(char *s, int len) {
         } // end if
       }   // end if
       break;
-    case 0x08: // backspace
-    case 0x7F: // delete
+	  
+    case 0x08: 					// backspace
+    case 0x7F: 					// delete
       console_putc(0x08);
       console_putc(' ');
       console_putc(0x08);
       for (int i = 0; i < 2; i++)
         t--;
       break;
-    case '\r': // linefeed
+    case '\r': 					// linefeed
       *t = c;
       console_putc(c);
 
-    case 32 ... 126: // only valid ascii characters
+    case 32 ... 126: 			// only valid ascii characters
       *t = c;
       console_putc(c);
       break;
@@ -92,16 +91,3 @@ int console_gets(char *s, int len) {
   } // end if
 }
 
-// Function to remove all spaces from a given string
-void remove_spaces(char *str) {
-  // To keep track of non-space character count
-  int count = 0;
-
-  // Traverse the given string. If current character
-  // is not space, then place it at index 'count++'
-  for (int i = 0; str[i]; i++)
-    if (str[i] != ' ')
-      str[count++] = str[i]; // here count is
-                             // incremented
-  str[count] = '\0';
-}

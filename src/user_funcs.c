@@ -1,15 +1,13 @@
-#include "user_funcs.h"
-#include "console.h"
-#include "hardware/irq.h"
-#include "user_funcs.h"
-#include "console.h"
-#include "hardware/irq.h"
-#include "hardware/uart.h"
-#include "pico/stdlib.h"
-#include "tinyexpr.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "console.h"
+#include "user_funcs.h"
+#include "tinyexpr.h"
+#include "hardware/irq.h"
+#include "hardware/uart.h"
+#include "pico/stdlib.h"
 
 // Each user function you create, you must also
 // add to the init_user_functions routine.
@@ -20,21 +18,25 @@ void init_user_functions() {
   // then, I point the user_functions struct array
   // to the actual name of my user-defined function.
   strcpy(user_functions[0].command_name, "blink_led");
-  strcpy(user_functions[0].command_help,
-         "blink_led pin_number iterations duration (ms)");
+  strcpy(user_functions[0].command_help, "blink_led pin_number iterations duration (ms)");
   user_functions[0].user_function = blink_led;
 
   // Here is a second user function.
   strcpy(user_functions[1].command_name, "read_pir_sensor");
-  strcpy(user_functions[1].command_help,
-         "read_pir_sensor pin_number iterations");
+  strcpy(user_functions[1].command_help, "read_pir_sensor pin_number iterations");
   user_functions[1].user_function = read_pir_sensor;
 
   //Here is a third user function.
   strcpy(user_functions[2].command_name, "calc");
   strcpy(user_functions[2].command_help, "calc math_expression");
   user_functions[2].user_function = calc;
-} // init_user_functions
+
+  // Fourth user function.
+  strcpy(user_functions[3].command_name, "SPI");
+  strcpy(user_functions[3].command_help, "");
+  user_functions[3].user_function = SPI;
+
+} 
 
 void blink_led(char tokens[][MAX_STRING_SIZE]) {
 
@@ -142,4 +144,11 @@ void calc(char tokens[][MAX_STRING_SIZE]) {
   console_puts(answer);
 
 } // end calcware/uart.h
+
+//SPI function
+//Allows to send specific data back to SPI bus
+void SPI() {
+
+
+}
 
