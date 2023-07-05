@@ -4,7 +4,10 @@
 #include "hardware/uart.h"
 #include "console.h"
 
-void console_putc(char c) { uart_putc(UART_ID, c); printf("%c", c); }
+void console_putc(char c) { 
+	uart_putc(UART_ID, c); 
+	printf("%c", c); 
+}
 
 char console_getc(void) { 
   uint8_t ch;

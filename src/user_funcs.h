@@ -23,7 +23,6 @@ void init_user_functions();
 void blink_led(char tokens[][MAX_STRING_SIZE]);
 void read_pir_sensor(char tokens[][MAX_STRING_SIZE]);
 void calc(char tokens[][MAX_STRING_SIZE]);
-void SPI();
+void SPI(char tokens[][MAX_STRING_SIZE]);
 
 #endif /* USER_FUNCS_H */
-

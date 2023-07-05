@@ -9,6 +9,9 @@
 #include "hardware/uart.h"
 #include "pico/stdlib.h"
 
+#include "hardware/spi.h"
+#include "user_spi.h"
+
 // Each user function you create, you must also
 // add to the init_user_functions routine.
 void init_user_functions() {
@@ -147,8 +150,15 @@ void calc(char tokens[][MAX_STRING_SIZE]) {
 
 //SPI function
 //Allows to send specific data back to SPI bus
-void SPI() {
-
+void SPI(char tokens[][MAX_STRING_SIZE]) {
+	setup_spi_buffers();
+	
+	uint16_t OUT_DATA = atoi(tokens[1]);
+	if (OUT_DATA == 0) { console_puts("NOT VALID NUMERIC DATA. \n"); return; }
+	
+	fill_out_buf(OUT_DATA);
+	
+	sandr_spi(OUT_DATA);
 
 }
 

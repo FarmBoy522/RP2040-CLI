@@ -1,24 +1,25 @@
 #include "console.h"
 #include "user_funcs.h"
+#include "user_spi.h"
 
 #include "hardware/irq.h"
 #include "hardware/uart.h"
+#include "hardware/spi.h"
 #include "pico/stdlib.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+//Define the UART settings and Pin Assignments
 #define BAUD_RATE 115200
 #define DATA_BITS 8
 #define STOP_BITS 1
 #define PARITY UART_PARITY_NONE
-
-// We are using pins 0 and 1, but see the GPIO function select table in the
-// datasheet for information on which other pins can be used.
 #define UART_TX_PIN 0
 #define UART_RX_PIN 1
-#define BUF_SIZE 255
 
+//Define the buffers and string sizes
+#define BUF_SIZE 255
 #define NUMBER_OF_STRING 10
 #define MAX_STRING_SIZE 25
 
@@ -37,10 +38,15 @@ int main() {
 	char buffer[BUF_SIZE], prev_buffer[BUF_SIZE];
 	char str[80];
 
+	// Initialize all pico stdio
 	stdio_init_all();
+	setup_uart();
 
-	// initialize the user functions
+	// Initialize the user functions
 	init_user_functions();
+	
+	// Initialize the SPI Hardware bus
+	setup_spi();
 
 	while (true) {
 		// console prompt
