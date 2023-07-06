@@ -52,7 +52,10 @@ int main() {
 
 		// dealing with up arrow - previous buffer
 		if (len == -1) { 
-		  //for future
+			sprintf(str, "$%s", prev_buffer);
+			console_puts(str);
+			strcpy(buffer, prev_buffer);
+			
 		} //end if
 
 		strcpy(prev_buffer, buffer);
@@ -68,7 +71,7 @@ int main() {
 				//If no entry, break from loop
 				if (strcmp(user_functions[i].command_name, "") == 0) { break; }
 
-				//Display help
+				//Display help for each specific command
 				if (strcmp(user_functions[i].command_name, tokens[0]) == 0) {
 					if ((strcmp(tokens[1], "-h") == 0) || (strcmp(tokens[1], "--help") == 0)) {
 						sprintf(str, "\n%s\n", user_functions[i].command_help);
@@ -83,24 +86,23 @@ int main() {
 					console_puts(str);
 				}
 
-				//quit the console loop
+				//Quit the console loop
 				if (strcmp("quit", tokens[0]) == 0) {
 					console_puts("\nGood bye.\n");
 					exit_flag = 1;
 					break;
 				}
 
-				//execute the command function
+				//Execute the command function
 				if (strcmp(user_functions[i].command_name, tokens[0]) == 0) {
 					user_functions[i].user_function(tokens);
 					break;
 				}
 			}
+			
+			console_puts("\n");
+			console_puts("OK");
 		}
-
-		console_puts("\n");
-		console_puts("OK");
-		//console_puts("\n");
 
 		buffer[0] = '\0';
 		for (int i = 0; i < token_cnt; i++)
